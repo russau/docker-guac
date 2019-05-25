@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.3"
 services:
 
   guacamole:
@@ -8,16 +8,15 @@ services:
       GUACAMOLE_HOME: "/guacamole-home"
       GUACD_HOSTNAME: "127.0.0.1"
     volumes:
-      - .:/guacamole-home 
+      - ./config:/guacamole-home 
 
   guacd:
     image: guacamole/guacd:1.0.0
     network_mode: "host"
 
   nginx:
-    image: guacamole/guacd:1.0.0
+    image: nginx:1.15-alpine
     network_mode: "host"
     volumes:
       - ./config/conf.d:/etc/nginx/conf.d
-      - ./certs:/certs
-
+      - /var/lib/acme/:/var/lib/acme/
