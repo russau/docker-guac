@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+
+  guacamole:
+    image: guacamole/guacamole:1.0.0
+    network_mode: "host"
+    environment:
+      GUACAMOLE_HOME: "/guacamole-home"
+      GUACD_HOSTNAME: "127.0.0.1"
+    volumes:
+      - .:/guacamole-home 
+
+  guacd:
+    image: guacamole/guacd:1.0.0
+    network_mode: "host"
+
+  nginx:
+    image: guacamole/guacd:1.0.0
+    network_mode: "host"
+    volumes:
+      - ./config/conf.d:/etc/nginx/conf.d
+      - ./certs:/certs
+
