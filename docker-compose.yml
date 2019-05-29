@@ -3,20 +3,38 @@ services:
 
   guacamole:
     image: guacamole/guacamole:1.0.0
-    network_mode: "host"
+#    network_mode: "host"
+    ports:
+      - 8080:8080
     environment:
-      GUACAMOLE_HOME: "/guacamole-home"
-      GUACD_HOSTNAME: "127.0.0.1"
+      GUACD_HOSTNAME: "guacd"
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_DATABASE: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
     volumes:
-      - ./config:/guacamole-home 
+      - ./config/guac-extensions:/extensions
+    command: >
+      bash -c "mkdir -p $$HOME/.guacamole/extensions
+      && cp /extensions/guacamole-auth-header-1.0.0.jar $$HOME/.guacamole/extensions
+      && sed -i 's/rm -Rf/#rm -Rf/g' /opt/guacamole/bin/start.sh
+      && /opt/guacamole/bin/start.sh"
 
   guacd:
     image: guacamole/guacd:1.0.0
-    network_mode: "host"
+#    network_mode: "host"
+    
+  postgres:
+    image: postgres:11.3-alpine
+    environment:
+      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
 
   nginx:
     image: nginx:1.15-alpine
-    network_mode: "host"
+#    network_mode: "host"
+    ports:
+      - 8000:8000
     volumes:
       - ./config/conf.d:/etc/nginx/conf.d
-      - /var/lib/acme/:/var/lib/acme/
+      - ./html:/usr/share/nginx/html
+
