@@ -25,6 +25,9 @@ services:
     image: postgres:11.3-alpine
     environment:
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
+      RDP_PASSWORD: ${RDP_PASSWORD}
+    volumes:
+      - ./config/pg-initialization:/docker-entrypoint-initdb.d
 
   nginx:
     image: nginx:1.15-alpine
