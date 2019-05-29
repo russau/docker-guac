@@ -2,6 +2,7 @@ version: "3.3"
 services:
 
   guacamole:
+    # https://guacamole.apache.org/doc/gug/guacamole-docker.html
     image: guacamole/guacamole:1.0.0
 #    network_mode: "host"
     ports:
@@ -12,13 +13,9 @@ services:
       POSTGRES_DATABASE: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
+      GUACAMOLE_HOME: /guacamole_home
     volumes:
-      - ./config/guac-extensions:/extensions
-    command: >
-      bash -c "mkdir -p $$HOME/.guacamole/extensions
-      && cp /extensions/guacamole-auth-header-1.0.0.jar $$HOME/.guacamole/extensions
-      && sed -i 's/rm -Rf/#rm -Rf/g' /opt/guacamole/bin/start.sh
-      && /opt/guacamole/bin/start.sh"
+      - ./config/guacamole_home:/guacamole_home
 
   guacd:
     image: guacamole/guacd:1.0.0
