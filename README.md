@@ -10,6 +10,7 @@ usermod -a -G docker ubuntu
 # and creating certs
 # sudo apt-get install acmetool
 
+export RDP_HOST='host of the RDP connection'
 export RDP_PASSWORD='the real password'
 export PSQL_PASSWORD='the real password'
 

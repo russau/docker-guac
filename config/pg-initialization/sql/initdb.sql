@@ -817,7 +817,7 @@ INSERT INTO guacamole_connection (connection_name, protocol, failover_only)
 VALUES ('ubuntu', 'rdp', 'f');
 
 INSERT INTO guacamole_connection_parameter (connection_id, parameter_name, parameter_value)
-SELECT connection_id, 'hostname', '52.13.62.241' FROM guacamole_connection;
+SELECT connection_id, 'hostname', 'RDP_HOST' FROM guacamole_connection;
 INSERT INTO guacamole_connection_parameter (connection_id, parameter_name, parameter_value)
 SELECT connection_id, 'password', 'RDP_PASSWORD' FROM guacamole_connection;
 INSERT INTO guacamole_connection_parameter (connection_id, parameter_name, parameter_value)

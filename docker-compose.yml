@@ -26,6 +26,7 @@ services:
     environment:
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
       RDP_PASSWORD: ${RDP_PASSWORD}
+      RDP_HOST: ${RDP_HOST}
     volumes:
       - ./config/pg-initialization:/docker-entrypoint-initdb.d
 
