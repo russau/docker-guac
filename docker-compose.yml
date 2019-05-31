@@ -4,7 +4,6 @@ services:
   guacamole:
     # https://guacamole.apache.org/doc/gug/guacamole-docker.html
     image: guacamole/guacamole:1.0.0
-#    network_mode: "host"
     ports:
       - 8080:8080
     environment:
@@ -12,29 +11,26 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_DATABASE: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
-      GUACAMOLE_HOME: /guacamole_home
-    volumes:
-      - ./config/guacamole_home:/guacamole_home
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   guacd:
     image: guacamole/guacd:1.0.0
-#    network_mode: "host"
     
   postgres:
     image: postgres:11.3-alpine
     environment:
-      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
-      RDP_PASSWORD: ${RDP_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      GUAC_PASSWORD: ${GUAC_PASSWORD}
     volumes:
       - ./config/pg-initialization:/docker-entrypoint-initdb.d
 
   nginx:
     image: nginx:1.15-alpine
-#    network_mode: "host"
     ports:
-      - 8000:8000
+      - 443:443
     volumes:
       - ./config/conf.d:/etc/nginx/conf.d
       - ./html:/usr/share/nginx/html
+      - /var/lib/acme/live/guac.testingzone.club/fullchain:/var/lib/acme/live/guac.testingzone.club/fullchain
+      - /var/lib/acme/live/guac.testingzone.club/privkey:/var/lib/acme/live/guac.testingzone.club/privkey
 

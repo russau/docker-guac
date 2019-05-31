@@ -10,7 +10,9 @@ usermod -a -G docker ubuntu
 # and creating certs
 # sudo apt-get install acmetool
 
-export RDP_PASSWORD='the real password'
-export PSQL_PASSWORD='the real password'
+# make .env file with
+echo GUAC_PASSWORD='guacadmin's password' >> .env
+POSTGRES_PASSWORD='postgres password' >> .env
 
 docker-compose up -d
+```
