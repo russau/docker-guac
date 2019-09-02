@@ -17,6 +17,8 @@ services:
   guacd:
     image: guacamole/guacd:1.0.0
     restart: always
+    volumes:
+      - ./video:/video
     
   postgres:
     image: postgres:11.3-alpine
@@ -33,6 +35,7 @@ services:
     image: nginx:1.15-alpine
     restart: always
     ports:
+      - 80:80
       - 443:443
     volumes:
       - ./config/conf.d:/etc/nginx/conf.d
